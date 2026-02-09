@@ -1,8 +1,5 @@
 import Joi from 'joi';
 
-/**
- * Validation schemas for API requests
- */
 export const schemas = {
   askJiji: Joi.object({
     query: Joi.string()
@@ -25,9 +22,7 @@ export const schemas = {
   })
 };
 
-/**
- * Middleware factory to validate request body against a schema
- */
+
 export const validateRequest = (schema) => {
   return (req, res, next) => {
     const { error, value } = schema.validate(req.body, {
@@ -48,20 +43,17 @@ export const validateRequest = (schema) => {
       });
     }
 
-    // Replace request body with validated and sanitized data
     req.body = value;
     next();
   };
 };
 
-/**
- * Sanitize input to prevent XSS and injection attacks
- */
+
 export const sanitizeInput = (input) => {
   if (typeof input !== 'string') return input;
   
   return input
     .trim()
-    .replace(/[<>]/g, '') // Remove potential HTML tags
-    .substring(0, 500); // Limit length
+    .replace(/[<>]/g, '') 
+    .substring(0, 500); 
 };

@@ -1,9 +1,6 @@
 import { supabase } from '../config/supabase.js';
 
-/**
- * Middleware to authenticate requests using Supabase JWT
- * Extracts and validates the Authorization header
- */
+
 export const authenticateUser = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -15,9 +12,9 @@ export const authenticateUser = async (req, res, next) => {
       });
     }
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    const token = authHeader.substring(7); 
 
-    // Verify the JWT token with Supabase
+ 
     const { data: { user }, error } = await supabase.auth.getUser(token);
 
     if (error || !user) {
@@ -27,7 +24,6 @@ export const authenticateUser = async (req, res, next) => {
       });
     }
 
-    // Attach user to request object for use in route handlers
     req.user = user;
     next();
   } catch (error) {
@@ -39,10 +35,7 @@ export const authenticateUser = async (req, res, next) => {
   }
 };
 
-/**
- * Optional authentication - allows both authenticated and unauthenticated requests
- * For demo purposes or public endpoints
- */
+
 export const optionalAuth = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;

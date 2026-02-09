@@ -15,7 +15,7 @@ router.post(
       const { query } = req.body;
       const userId = req.user?.id || null;
 
-      // Process the query
+      
       const response = await jijiService.processQuery(query, userId);
 
       res.status(200).json(response);
